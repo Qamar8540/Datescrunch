@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory text-coffee font-body;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-coffee;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.mahogany");
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,27 @@
+import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
+
+// Used inside Server Components, Route Handlers and Server Actions.
+// Reads/writes the auth session via cookies so Supabase Auth (admin login)
+// works across requests without storing any password ourselves.
+export function createClient() {
+  const cookieStore = cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options) {
+          cookieStore.set({ name, value: "", ...options });
+        },
+      },
+    }
+  );
+}
